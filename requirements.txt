@@ -1,0 +1,7 @@
+streamlit
+openai
+python-dotenv
+pdfplumber
+pandas
+numpy
+faiss-cpu
