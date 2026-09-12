@@ -1,40 +1,37 @@
+import os
+import sys
+
+# Step 1: Force system to find root directory packages
+sys.path.append(os.path.dirname(os.path.abspath(__file__)))
+
 import streamlit as st
-from database.database import initialize_database
 
-# Initialize database
-initialize_database()
-
-# Page configuration
+# Step 2: Page Configuration MUST be the first Streamlit command
 st.set_page_config(
     page_title="ResearchBench AI",
     page_icon="🧠",
-    layout="wide"
+    layout="wide",
+    initial_sidebar_state="expanded"
 )
 
-# Home page
+# Step 3: Safe Database Initialization
+try:
+    from database.database import initialize_database
+    initialize_database()
+except Exception as e:
+    st.sidebar.error(f"DB Init Warning: {e}")
+
+# Main UI Layout
 st.title("🧠 ResearchBench AI")
-
 st.subheader("AI-powered research workspace")
-
-st.write(
-    "A research workspace designed for biotechnology "
-    "and life-science students."
-)
+st.caption("A research workspace designed for biotechnology and life-science students.")
 
 st.divider()
 
 st.markdown("### 🚀 Welcome")
+st.write("Use the sidebar to access your research library, AI research assistant, research memory, protocol companion, research journey and dashboard.")
 
-st.write(
-    "Use the sidebar to access your research library, "
-    "AI research assistant, research memory, protocol "
-    "companion, research journey and dashboard."
-)
-
-st.info(
-    "📚 Start by uploading a research paper or "
-    "laboratory protocol from the Research Library."
-)
+st.info("📚 Start by uploading a research paper or laboratory protocol from the Research Library.")
 
 st.divider()
 
@@ -53,3 +50,4 @@ with col2:
 with col3:
     st.markdown("#### 🧠 Research Memory")
     st.write("Save ideas, notes and observations.")
+    
